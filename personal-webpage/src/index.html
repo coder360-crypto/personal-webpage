@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashish Patwa</title>
+    <meta name="description" content="Ashish Patwa — research, writing, and notes from the dark.">
+
+    <!-- Fonts: Space Grotesk (display/body) + JetBrains Mono (labels) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles/design-tokens.css">
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <!-- ===================== NAV ===================== -->
+    <header class="nav">
+        <div class="container nav__inner">
+            <a class="nav__brand" href="#top">Ashish Patwa</a>
+
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navList">
+                <span class="nav__toggle-bar"></span>
+            </button>
+
+            <nav>
+                <ul class="nav__list" id="navList">
+                    <!-- About removed from nav (section kept in code below) -->
+                    <li><a class="nav__link is-active" href="index.html">Research</a></li>
+                    <li><a class="nav__link" href="sections/blogs.html">Writing</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Poyo: pixel mascot — stands still, walks to where you click -->
+        <div class="poyo" aria-hidden="true">
+            <span class="poyo__say">poyo!</span>
+            <div class="poyo__char">
+                <svg class="poyo__svg" viewBox="0 0 12 11" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                    <g fill="#ff9ec9">
+                        <rect x="4" y="0" width="4" height="1"/>
+                        <rect x="2" y="1" width="8" height="1"/>
+                        <rect x="1" y="2" width="10" height="1"/>
+                        <rect x="0" y="3" width="12" height="1"/>
+                        <rect x="0" y="4" width="12" height="1"/>
+                        <rect x="0" y="5" width="12" height="1"/>
+                        <rect x="1" y="6" width="10" height="1"/>
+                        <rect x="2" y="7" width="8" height="1"/>
+                        <rect x="3" y="8" width="6" height="1"/>
+                    </g>
+                    <g fill="#ffd1e6">
+                        <rect x="3" y="1" width="2" height="1"/>
+                        <rect x="2" y="2" width="2" height="1"/>
+                    </g>
+                    <g fill="#ff7fb0">
+                        <rect x="3" y="6" width="1" height="1"/>
+                        <rect x="8" y="6" width="1" height="1"/>
+                    </g>
+                    <g fill="#2a2444">
+                        <rect x="4" y="3" width="1" height="3"/>
+                        <rect x="7" y="3" width="1" height="3"/>
+                    </g>
+                    <g fill="#ffffff">
+                        <rect x="4" y="3" width="1" height="1"/>
+                        <rect x="7" y="3" width="1" height="1"/>
+                    </g>
+                    <rect x="5" y="6" width="2" height="1" fill="#a83260"/>
+                    <g class="poyo-feet poyo-feet--idle" fill="#d94d86">
+                        <rect x="2" y="9" width="3" height="2"/>
+                        <rect x="7" y="9" width="3" height="2"/>
+                    </g>
+                    <g class="poyo-feet poyo-feet--a" fill="#d94d86">
+                        <rect x="3" y="9" width="3" height="2"/>
+                        <rect x="6" y="9" width="3" height="2"/>
+                    </g>
+                    <g class="poyo-feet poyo-feet--b" fill="#d94d86">
+                        <rect x="1" y="9" width="3" height="2"/>
+                        <rect x="8" y="9" width="3" height="2"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main id="top">
+        <!-- ===================== RESEARCH (default page) ===================== -->
+        <section class="section" id="research">
+            <div class="container">
+                <p class="lead">A few projects and papers I've spent time on, surfaced from the dark.</p>
+
+                <span class="kicker">/ current projects</span>
+                <ul class="entry-list" style="margin-bottom: var(--s-7);">
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Project Title One</a></h3>
+                            <p class="entry__desc">A one-line description of what this project explores and why it matters.</p>
+                        </div>
+                        <span class="entry__year">2026</span>
+                    </li>
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Project Title Two</a></h3>
+                            <p class="entry__desc">A short summary of the method, the result, and the contribution.</p>
+                        </div>
+                        <span class="entry__year">2025</span>
+                    </li>
+                </ul>
+
+                <span class="kicker">/ publications</span>
+                <ul class="entry-list">
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Publication Title One</a></h3>
+                            <p class="entry__desc">Brief description or link.</p>
+                        </div>
+                        <span class="entry__year">2024</span>
+                    </li>
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Publication Title Two</a></h3>
+                            <p class="entry__desc">Brief description or link.</p>
+                        </div>
+                        <span class="entry__year">2023</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- ===================== ABOUT (removed from page, kept in code) ===================== -->
+        <!--
+        <section class="section" id="about">
+            <div class="container section--narrow">
+                <span class="kicker">/ about</span>
+                <h2 class="heading">About</h2>
+                <div class="prose">
+                    <p>
+                        Hello! I'm <strong>Ashish Patwa</strong>, a researcher and writer working in
+                        [your field]. I'm drawn to [topic one], [topic two], and the messy space where
+                        they overlap.
+                    </p>
+                    <p>
+                        I studied [Your Degree] at [Your University], and since then I've kept one foot
+                        in research and the other in building real things. A lot of what I learn ends up
+                        in the notes below.
+                    </p>
+                    <p>
+                        Outside of work you'll usually find me [your hobbies]. I try to learn in public,
+                        so feel free to reach out if something here resonates.
+                    </p>
+                </div>
+                <p class="currently">
+                    <span class="currently__label">Currently</span>
+                    exploring [topic] and reading [book title].
+                </p>
+            </div>
+        </section>
+        -->
+
+        <!-- Writing lives on its own page: sections/blogs.html -->
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <span class="footer__copy">© 2026 Ashish Patwa</span>
+            <div class="footer__links">
+                <a href="https://github.com/yourname" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://linkedin.com/in/yourname" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://scholar.google.com/citations?user=YOUR_ID" target="_blank" rel="noopener">Google Scholar</a>
+                <a href="mailto:you@example.com">Email</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>

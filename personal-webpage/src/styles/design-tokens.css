@@ -1,0 +1,44 @@
+:root {
+  color-scheme: dark;
+
+  /* ---- Mysterious palette ---- */
+  --paper: #0a0a0c;        /* near-black base */
+  --panel: #121216;        /* faint raised surface */
+  --ink: #d6d6db;          /* soft primary text (not bright white) */
+  --muted: #74737e;        /* dim secondary text */
+  --faint: #26262e;        /* hairline borders */
+  --accent: #b9a6ff;       /* ethereal violet glow */
+  --on-accent: #0a0a0c;    /* text on accent fills */
+
+  /* ---- Type ---- */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', ui-monospace, monospace;
+
+  /* ---- Primitives ---- */
+  --border: 1px solid var(--faint);
+  --border-bold: 1px solid var(--muted);
+  --shadow: none;
+  --shadow-lg: 0 0 40px rgba(185, 166, 255, 0.18);
+  --glow: 0 0 24px rgba(185, 166, 255, 0.20);
+  --radius: 2px;
+
+  /* ---- Layout ---- */
+  --maxw: 880px;
+  --gutter: 24px;
+
+  /* ---- Spacing (4px grid) ---- */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 80px;
+  --s-10: 96px;
+
+  /* ---- Motion ---- */
+  --t-fast: 140ms ease;
+  --t-base: 240ms ease;
+}

@@ -48,12 +48,6 @@
             observer.observe(section);
         });
     }
-
-    // --- Update footer year automatically ---
-    const yearEl = document.querySelector('.footer__copy');
-    if (yearEl) {
-        yearEl.textContent = '© ' + new Date().getFullYear() + ' Ashish Patwa';
-    }
 })();
 
 // --- Poyo: stands still, walks to wherever you click ---

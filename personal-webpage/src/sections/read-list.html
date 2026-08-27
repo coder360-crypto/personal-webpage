@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writing — Ashish Patwa</title>
+    <title>Read List — Ashish Patwa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
                 <nav>
                     <ul class="nav__list" id="navList">
                         <li><a class="nav__link" href="../index.html">Research</a></li>
-                        <li><a class="nav__link is-active" href="blogs.html">Writing</a></li>
-                        <li><a class="nav__link" href="read-list.html">Read List</a></li>
+                        <li><a class="nav__link" href="blogs.html">Writing</a></li>
+                        <li><a class="nav__link is-active" href="read-list.html">Read List</a></li>
                     </ul>
                 </nav>
 
@@ -140,31 +140,50 @@
     </header>
 
     <main>
-        <section class="section" id="writing">
+        <section class="section" id="read-list">
             <div class="container">
-                <p class="lead">Notes and essays, half-finished thoughts left out in the open.</p>
+                <p class="lead">A running list of what I'm reading, and the ones that stuck.</p>
 
-                <ul class="post-list">
-                    <li class="post">
-                        <span class="post__date">Jun 2026</span>
-                        <div>
-                            <h3 class="post__title"><a href="#">Blog Post Title One</a></h3>
-                            <p class="post__excerpt">A brief excerpt that summarizes the post and invites the reader to continue.</p>
+                <span class="kicker">/ currently reading</span>
+                <ul class="entry-list" style="margin-bottom: var(--s-7);">
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Book Title One</a></h3>
+                            <p class="entry__desc">Author Name — a line on why you picked it up.</p>
                         </div>
+                        <span class="entry__year">2026</span>
                     </li>
-                    <li class="post">
-                        <span class="post__date">Apr 2026</span>
-                        <div>
-                            <h3 class="post__title"><a href="#">Blog Post Title Two</a></h3>
-                            <p class="post__excerpt">Another short summary of a post — a sentence or two is plenty here.</p>
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Book Title Two</a></h3>
+                            <p class="entry__desc">Author Name — where you are in it, or what it is doing to you.</p>
                         </div>
+                        <span class="entry__year">2026</span>
                     </li>
-                    <li class="post">
-                        <span class="post__date">Feb 2026</span>
-                        <div>
-                            <h3 class="post__title"><a href="#">Blog Post Title Three</a></h3>
-                            <p class="post__excerpt">A third entry to round things out. Replace the dates, titles, and text.</p>
+                </ul>
+
+                <span class="kicker">/ finished</span>
+                <ul class="entry-list">
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Book Title Three</a></h3>
+                            <p class="entry__desc">Author Name — one line on what you took from it.</p>
                         </div>
+                        <span class="entry__year">2025</span>
+                    </li>
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Book Title Four</a></h3>
+                            <p class="entry__desc">Author Name — replace the titles, authors, and years.</p>
+                        </div>
+                        <span class="entry__year">2025</span>
+                    </li>
+                    <li class="entry">
+                        <div class="entry__main">
+                            <h3 class="entry__title"><a href="#">Paper or Essay Title</a></h3>
+                            <p class="entry__desc">Author Name — short notes belong here.</p>
+                        </div>
+                        <span class="entry__year">2024</span>
                     </li>
                 </ul>
             </div>

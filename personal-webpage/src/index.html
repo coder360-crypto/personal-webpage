@@ -20,63 +20,125 @@
         <div class="container nav__inner">
             <a class="nav__brand" href="#top">Ashish Patwa</a>
 
+            <div class="nav__end">
+                <nav>
+                    <ul class="nav__list" id="navList">
+                        <!-- About removed from nav (section kept in code below) -->
+                        <li><a class="nav__link is-active" href="index.html">Research</a></li>
+                        <li><a class="nav__link" href="sections/blogs.html">Writing</a></li>
+                        <li><a class="nav__link" href="sections/read-list.html">Read List</a></li>
+                    </ul>
+                </nav>
+
+                <div class="nav__social">
+                    <a class="nav__icon" href="https://github.com/coder360-crypto" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.4 5 18.4 5.3 18.4 5.3c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+                    </a>
+                    <a class="nav__icon" href="https://www.linkedin.com/in/ashish-patwa-182b2b223/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6h.05c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.1 2.1 2.1 0 0 1 0 4.1zm1.8 13.1H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg>
+                    </a>
+                    <a class="nav__icon" href="https://scholar.google.com/citations?user=6ay8-fIAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.8 3.9A8 8 0 0 1 12 9a8 8 0 0 1 7.2 4.4L24 9.5 12 0z"/></svg>
+                    </a>
+                    <a class="nav__icon" href="mailto:ashishdevvanshi786@gmail.com" aria-label="Email" title="Email">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v.4l-10 5.9L2 5.9v-.4zm0 2.7v10.3A2.5 2.5 0 0 0 4.5 21h15a2.5 2.5 0 0 0 2.5-2.5V8.2l-9.5 5.6a1 1 0 0 1-1 0L2 8.2z"/></svg>
+                    </a>
+                </div>
+            </div>
+
             <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navList">
                 <span class="nav__toggle-bar"></span>
             </button>
-
-            <nav>
-                <ul class="nav__list" id="navList">
-                    <!-- About removed from nav (section kept in code below) -->
-                    <li><a class="nav__link is-active" href="index.html">Research</a></li>
-                    <li><a class="nav__link" href="sections/blogs.html">Writing</a></li>
-                </ul>
-            </nav>
         </div>
 
         <!-- Poyo: pixel mascot — stands still, walks to where you click -->
         <div class="poyo" aria-hidden="true">
             <span class="poyo__say">poyo!</span>
             <div class="poyo__char">
-                <svg class="poyo__svg" viewBox="0 0 12 11" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                <svg class="poyo__svg" viewBox="0 0 16 14" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                    <!-- body -->
                     <g fill="#ff9ec9">
-                        <rect x="4" y="0" width="4" height="1"/>
-                        <rect x="2" y="1" width="8" height="1"/>
-                        <rect x="1" y="2" width="10" height="1"/>
-                        <rect x="0" y="3" width="12" height="1"/>
-                        <rect x="0" y="4" width="12" height="1"/>
-                        <rect x="0" y="5" width="12" height="1"/>
-                        <rect x="1" y="6" width="10" height="1"/>
-                        <rect x="2" y="7" width="8" height="1"/>
-                        <rect x="3" y="8" width="6" height="1"/>
+                        <rect x="5" y="0" width="6" height="1"/>
+                        <rect x="3" y="1" width="10" height="1"/>
+                        <rect x="2" y="2" width="12" height="1"/>
+                        <rect x="1" y="3" width="14" height="1"/>
+                        <rect x="0" y="4" width="16" height="4"/>
+                        <rect x="1" y="8" width="14" height="1"/>
+                        <rect x="2" y="9" width="12" height="1"/>
+                        <rect x="3" y="10" width="10" height="1"/>
+                        <rect x="4" y="11" width="8" height="1"/>
                     </g>
-                    <g fill="#ffd1e6">
-                        <rect x="3" y="1" width="2" height="1"/>
-                        <rect x="2" y="2" width="2" height="1"/>
+                    <!-- soft upper-left sheen -->
+                    <g fill="#ffc9e2">
+                        <rect x="4" y="1" width="3" height="1"/>
+                        <rect x="3" y="2" width="3" height="1"/>
+                        <rect x="2" y="3" width="2" height="1"/>
                     </g>
-                    <g fill="#ff7fb0">
-                        <rect x="3" y="6" width="1" height="1"/>
-                        <rect x="8" y="6" width="1" height="1"/>
+                    <g fill="#ffeaf4">
+                        <rect x="5" y="1" width="2" height="1"/>
+                        <rect x="4" y="2" width="1" height="1"/>
                     </g>
-                    <g fill="#2a2444">
-                        <rect x="4" y="3" width="1" height="3"/>
-                        <rect x="7" y="3" width="1" height="3"/>
+                    <!-- lower-right shading -->
+                    <g fill="#f78ab9">
+                        <rect x="10" y="8" width="5" height="1"/>
+                        <rect x="8" y="9" width="6" height="1"/>
+                        <rect x="4" y="10" width="9" height="1"/>
+                        <rect x="4" y="11" width="8" height="1"/>
                     </g>
+                    <g fill="#ea7ea9">
+                        <rect x="9" y="10" width="4" height="1"/>
+                        <rect x="6" y="11" width="6" height="1"/>
+                    </g>
+                    <!-- blush -->
+                    <g fill="#ff6fa8">
+                        <rect x="2" y="6" width="2" height="1"/>
+                        <rect x="12" y="6" width="2" height="1"/>
+                    </g>
+                    <!-- eyes -->
                     <g fill="#ffffff">
-                        <rect x="4" y="3" width="1" height="1"/>
-                        <rect x="7" y="3" width="1" height="1"/>
+                        <rect x="5" y="2" width="2" height="1"/>
+                        <rect x="9" y="2" width="2" height="1"/>
                     </g>
-                    <rect x="5" y="6" width="2" height="1" fill="#a83260"/>
-                    <g class="poyo-feet poyo-feet--idle" fill="#d94d86">
-                        <rect x="2" y="9" width="3" height="2"/>
-                        <rect x="7" y="9" width="3" height="2"/>
+                    <g fill="#2b2540">
+                        <rect x="5" y="3" width="2" height="3"/>
+                        <rect x="9" y="3" width="2" height="3"/>
                     </g>
-                    <g class="poyo-feet poyo-feet--a" fill="#d94d86">
-                        <rect x="3" y="9" width="3" height="2"/>
-                        <rect x="6" y="9" width="3" height="2"/>
+                    <g fill="#6f9ae0">
+                        <rect x="5" y="6" width="2" height="1"/>
+                        <rect x="9" y="6" width="2" height="1"/>
                     </g>
-                    <g class="poyo-feet poyo-feet--b" fill="#d94d86">
-                        <rect x="1" y="9" width="3" height="2"/>
-                        <rect x="8" y="9" width="3" height="2"/>
+                    <!-- mouth -->
+                    <rect x="7" y="8" width="2" height="1" fill="#a83260"/>
+                    <!-- feet: idle (standing), a/b (walk cycle) -->
+                    <g class="poyo-feet poyo-feet--idle">
+                        <g fill="#dd5490">
+                            <rect x="2" y="12" width="5" height="1"/>
+                            <rect x="9" y="12" width="5" height="1"/>
+                        </g>
+                        <g fill="#bb3f73">
+                            <rect x="1" y="13" width="6" height="1"/>
+                            <rect x="9" y="13" width="6" height="1"/>
+                        </g>
+                    </g>
+                    <g class="poyo-feet poyo-feet--a">
+                        <g fill="#dd5490">
+                            <rect x="3" y="12" width="5" height="1"/>
+                            <rect x="8" y="12" width="5" height="1"/>
+                        </g>
+                        <g fill="#bb3f73">
+                            <rect x="2" y="13" width="6" height="1"/>
+                            <rect x="8" y="13" width="6" height="1"/>
+                        </g>
+                    </g>
+                    <g class="poyo-feet poyo-feet--b">
+                        <g fill="#dd5490">
+                            <rect x="1" y="12" width="5" height="1"/>
+                            <rect x="10" y="12" width="5" height="1"/>
+                        </g>
+                        <g fill="#bb3f73">
+                            <rect x="0" y="13" width="6" height="1"/>
+                            <rect x="10" y="13" width="6" height="1"/>
+                        </g>
                     </g>
                 </svg>
             </div>
@@ -84,6 +146,14 @@
     </header>
 
     <main id="top">
+        <!-- ===================== INTRO ===================== -->
+        <section class="intro">
+            <div class="container">
+                <h1 class="intro__title">A curious human.</h1>
+                <p class="intro__text">I like to learn everything.</p>
+            </div>
+        </section>
+
         <!-- ===================== RESEARCH (default page) ===================== -->
         <section class="section" id="research">
             <div class="container">
@@ -161,17 +231,6 @@
     </main>
 
     <!-- ===================== FOOTER ===================== -->
-    <footer class="footer">
-        <div class="container footer__inner">
-            <span class="footer__copy">© 2026 Ashish Patwa</span>
-            <div class="footer__links">
-                <a href="https://github.com/yourname" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://linkedin.com/in/yourname" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://scholar.google.com/citations?user=YOUR_ID" target="_blank" rel="noopener">Google Scholar</a>
-                <a href="mailto:you@example.com">Email</a>
-            </div>
-        </div>
-    </footer>
 
     <script src="scripts/main.js"></script>
 </body>

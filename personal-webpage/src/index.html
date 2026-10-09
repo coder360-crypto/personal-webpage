@@ -32,21 +32,6 @@
                         <li><a class="nav__link" href="sections/read-list.html">Read List</a></li>
                     </ul>
                 </nav>
-
-                <div class="nav__social">
-                    <a class="nav__icon" href="https://github.com/coder360-crypto" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.4 5 18.4 5.3 18.4 5.3c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
-                    </a>
-                    <a class="nav__icon" href="https://www.linkedin.com/in/ashish-patwa-182b2b223/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6h.05c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.1 2.1 2.1 0 0 1 0 4.1zm1.8 13.1H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg>
-                    </a>
-                    <a class="nav__icon" href="https://scholar.google.com/citations?user=6ay8-fIAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.8 3.9A8 8 0 0 1 12 9a8 8 0 0 1 7.2 4.4L24 9.5 12 0z"/></svg>
-                    </a>
-                    <a class="nav__icon" href="mailto:ashishdevvanshi786@gmail.com" aria-label="Email" title="Email">
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v.4l-10 5.9L2 5.9v-.4zm0 2.7v10.3A2.5 2.5 0 0 0 4.5 21h15a2.5 2.5 0 0 0 2.5-2.5V8.2l-9.5 5.6a1 1 0 0 1-1 0L2 8.2z"/></svg>
-                    </a>
-                </div>
             </div>
 
             <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navList">
@@ -152,43 +137,80 @@
         <!-- ===================== RESEARCH (default page) ===================== -->
         <section class="section" id="research">
             <div class="container">
-                <p class="lead">A few projects and papers I've spent time on, surfaced from the dark.</p>
+                <p class="lead">A few papers I've spent time on, surfaced from the dark.</p>
 
-                <span class="kicker">/ current projects</span>
-                <ul class="entry-list" style="margin-bottom: var(--s-7);">
-                    <li class="entry">
-                        <div class="entry__main">
-                            <h3 class="entry__title"><a href="#">Project Title One</a></h3>
-                            <p class="entry__desc">A one-line description of what this project explores and why it matters.</p>
-                        </div>
-                        <span class="entry__year">2026</span>
-                    </li>
-                    <li class="entry">
-                        <div class="entry__main">
-                            <h3 class="entry__title"><a href="#">Project Title Two</a></h3>
-                            <p class="entry__desc">A short summary of the method, the result, and the contribution.</p>
-                        </div>
-                        <span class="entry__year">2025</span>
-                    </li>
-                </ul>
+                <div class="bento">
+                    <section class="tile tile--now">
+                        <span class="tile__label">/ now</span>
+                        <p class="tile__statement">[What you're working on right now, in one sentence.]</p>
+                        <span class="tile__meta tile__meta--accent">&#9679; updated Oct 2026</span>
+                    </section>
 
-                <span class="kicker">/ publications</span>
-                <ul class="entry-list">
-                    <li class="entry">
-                        <div class="entry__main">
-                            <h3 class="entry__title"><a href="#">Publication Title One</a></h3>
-                            <p class="entry__desc">Brief description or link.</p>
+                    <section class="tile tile--links">
+                        <span class="tile__label">/ elsewhere</span>
+                        <ul class="tile__links">
+                            <li><a href="https://github.com/coder360-crypto" target="_blank" rel="noopener"><span class="tile__link-name"><svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.4 5 18.4 5.3 18.4 5.3c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg><span>GitHub</span></span><span aria-hidden="true">&#8599;</span></a></li>
+                            <li><a href="https://scholar.google.com/citations?user=6ay8-fIAAAAJ" target="_blank" rel="noopener"><span class="tile__link-name"><svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.8 3.9A8 8 0 0 1 12 9a8 8 0 0 1 7.2 4.4L24 9.5 12 0z"/></svg><span>Google Scholar</span></span><span aria-hidden="true">&#8599;</span></a></li>
+                            <li><a href="https://www.linkedin.com/in/ashish-patwa-182b2b223/" target="_blank" rel="noopener"><span class="tile__link-name"><svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6h.05c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.1 2.1 2.1 0 0 1 0 4.1zm1.8 13.1H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg><span>LinkedIn</span></span><span aria-hidden="true">&#8599;</span></a></li>
+                            <li><a href="mailto:ashishdevvanshi786@gmail.com"><span class="tile__link-name"><svg class="tile__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v.4l-10 5.9L2 5.9v-.4zm0 2.7v10.3A2.5 2.5 0 0 0 4.5 21h15a2.5 2.5 0 0 0 2.5-2.5V8.2l-9.5 5.6a1 1 0 0 1-1 0L2 8.2z"/></svg><span>Email</span></span><span aria-hidden="true">&#8599;</span></a></li>
+                        </ul>
+                    </section>
+
+                    <section class="tile tile--paper">
+                        <a class="tile__preview" href="https://arxiv.org/abs/2409.13592" aria-label="Open the YesBut paper">
+                            <img src="assets/papers/yesbut.jpg" alt="" loading="lazy" onerror="this.remove()">
+                            <span class="tile__preview-fallback">paper preview</span>
+                        </a>
+                        <div class="tile__head">
+                            <span class="tile__label">/ featured paper</span>
+                            <span class="tile__badge tile__badge--accent">EMNLP 2024</span>
                         </div>
-                        <span class="entry__year">2024</span>
-                    </li>
-                    <li class="entry">
-                        <div class="entry__main">
-                            <h3 class="entry__title"><a href="#">Publication Title Two</a></h3>
-                            <p class="entry__desc">Brief description or link.</p>
+                        <h3 class="tile__title"><a href="https://arxiv.org/abs/2409.13592">YesBut: A High-Quality Annotated Multimodal Dataset for Evaluating Satire Comprehension Capability of Vision-Language Models</a></h3>
+                        <p class="tile__desc">A Nandy, Y Agarwal, A Patwa, et al.</p>
+                        <div class="tile__actions">
+                            <a href="https://arxiv.org/abs/2409.13592">arXiv &#8599;</a>
                         </div>
-                        <span class="entry__year">2023</span>
-                    </li>
-                </ul>
+                    </section>
+
+                    <section class="tile tile--paper">
+                        <a class="tile__preview tile__preview--light" href="https://link.springer.com/chapter/10.1007/978-3-031-65794-8_5" aria-label="Open the RTaC paper">
+                            <img class="tile__preview-img--contain" src="assets/papers/rtac.png" alt="" loading="lazy" onerror="this.remove()">
+                            <span class="tile__preview-fallback">paper preview</span>
+                        </a>
+                        <div class="tile__head">
+                            <span class="tile__label">/ also</span>
+                            <span class="tile__badge">Springer 2024</span>
+                        </div>
+                        <h3 class="tile__title"><a href="https://link.springer.com/chapter/10.1007/978-3-031-65794-8_5">RTaC: A Generalized Framework for Tooling</a></h3>
+                        <p class="tile__desc">N Bhavsar, A Thakur, AL Singh, A Patwa</p>
+                        <div class="tile__actions">
+                            <a href="https://link.springer.com/chapter/10.1007/978-3-031-65794-8_5">Springer &#8599;</a>
+                        </div>
+                    </section>
+
+                    <section class="tile tile--small">
+                        <span class="tile__label">/ reading</span>
+                        <a class="tile__item" href="https://www.alphaxiv.org/pdf/2608.20316v1">Pandora's AI Model Routing Box</a>
+                        <p class="tile__desc">Adam Fisch et al.</p>
+                        <a class="tile__more" href="sections/read-list.html">full list &#8594;</a>
+                    </section>
+
+                    <section class="tile tile--small">
+                        <span class="tile__label">/ interests</span>
+                        <ul class="tile__chips">
+                            <li>human data</li>
+                            <li>RL environments</li>
+                            <li>post-training</li>
+                            <li>business</li>
+                        </ul>
+                    </section>
+
+                    <section class="tile tile--small">
+                        <span class="tile__label">/ writing</span>
+                        <p class="tile__desc">Notes and essays, half-finished thoughts left out in the open.</p>
+                        <a class="tile__more" href="sections/blogs.html">all writing &#8594;</a>
+                    </section>
+                </div>
             </div>
         </section>
 

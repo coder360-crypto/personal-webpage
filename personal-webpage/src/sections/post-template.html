@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Writing — Ashish Patwa</title>
+    <title>[Post title] — Ashish Patwa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -143,35 +143,81 @@
     </header>
 
     <main>
-        <section class="section" id="writing">
-            <div class="container">
-                <p class="lead">Notes and essays, half-finished thoughts left out in the open.</p>
+        <article class="article">
+            <div class="container container--wide">
+                <a class="article__back" href="blogs.html">&#8592; all writing</a>
 
-                <ul class="post-list">
-                    <li class="post">
-                        <span class="post__date">Jun 2026</span>
-                        <div>
-                            <h3 class="post__title"><a href="post-template.html">Blog Post Title One</a></h3>
-                            <p class="post__excerpt">A brief excerpt that summarizes the post and invites the reader to continue.</p>
+                <header class="article__header">
+                    <span class="article__kicker">/ essay &middot; post-training</span>
+                    <h1 class="article__title">[Post title]</h1>
+                    <p class="article__dek">[One line: the question this post answers, or why it exists.]</p>
+                    <dl class="article__meta">
+                        <div><dt>Published</dt><dd>[Mon YYYY]</dd></div>
+                        <div><dt>Reading</dt><dd>[N] min</dd></div>
+                    </dl>
+                </header>
+
+                <div class="article__layout">
+                    <aside class="article__rail">
+                        <nav class="toc" aria-label="Contents">
+                            <span class="rail__label">/ contents</span>
+                            <a class="toc__link" href="#intro">Introduction</a>
+                            <a class="toc__link" href="#section-1">01 &middot; [Section one]</a>
+                            <a class="toc__link" href="#section-2">02 &middot; [Section two]</a>
+                            <a class="toc__link" href="#closing">03 &middot; Closing thoughts</a>
+                        </nav>
+                        <div class="rail__group">
+                            <span class="rail__label">/ tags</span>
+                            <ul class="tile__chips">
+                                <li>human data</li>
+                                <li>post-training</li>
+                            </ul>
                         </div>
-                    </li>
-                    <li class="post">
-                        <span class="post__date">Apr 2026</span>
-                        <div>
-                            <h3 class="post__title"><a href="#">Blog Post Title Two</a></h3>
-                            <p class="post__excerpt">Another short summary of a post — a sentence or two is plenty here.</p>
+                        <div class="rail__group rail__share">
+                            <span class="rail__label">/ share</span>
+                            <button type="button" class="rail__copy" data-copy-link>copy link</button>
                         </div>
-                    </li>
-                    <li class="post">
-                        <span class="post__date">Feb 2026</span>
-                        <div>
-                            <h3 class="post__title"><a href="#">Blog Post Title Three</a></h3>
-                            <p class="post__excerpt">A third entry to round things out. Replace the dates, titles, and text.</p>
+                    </aside>
+
+                    <div class="article__body prose">
+                        <p class="article__lede" id="intro">[Opening paragraph. Start with the question or moment that started this post.]</p>
+                        <p>[Body text. Links look <a href="#">like this</a>.]</p>
+
+                        <h2 id="section-1"><span class="article__num">01</span>[Section one]</h2>
+                        <p>[Section text.]</p>
+
+                        <aside class="callout">
+                            <span class="rail__label">/ tl;dr</span>
+                            <p>[The takeaway in two or three lines, for people skimming.]</p>
+                        </aside>
+
+                        <h2 id="section-2"><span class="article__num">02</span>[Section two]</h2>
+                        <p>[Section text.]</p>
+
+                        <figure class="figure">
+                            <div class="figure__frame">[figure / chart]</div>
+                            <figcaption>Fig. 1 &mdash; [Caption.]</figcaption>
+                        </figure>
+
+                        <pre class="code"><span class="code__file">example.py</span><code>def step(self, action):
+    obs, reward, done = ...
+    return obs, reward, done</code></pre>
+
+                        <h2 id="closing"><span class="article__num">03</span>Closing thoughts</h2>
+                        <p>[What you'd do next, or what's still unresolved.]</p>
+
+                        <div class="byline">
+                            <span class="byline__avatar" aria-hidden="true">AP</span>
+                            <div class="byline__text">
+                                <strong>Ashish Patwa</strong>
+                                <span>Human data, RL environments, post-training.</span>
+                            </div>
+                            <a class="byline__reply" href="mailto:ashishdevvanshi786@gmail.com">reply &#8599;</a>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
-        </section>
+        </article>
     </main>
 
 

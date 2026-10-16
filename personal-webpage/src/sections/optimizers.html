@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimizers, from Gradient Descent to Muon — Ashish Patwa</title>
+    <meta name="description" content="A video and written walkthrough of neural-network optimizers, from gradient descent to Muon, with every update rule worked by hand.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/design-tokens.css">
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+    <header class="nav">
+        <div class="container nav__inner">
+            <div class="nav__identity">
+                <a class="nav__brand" href="../index.html">Ashish Patwa</a>
+                <span class="nav__tagline">A curious human. I like to learn everything.</span>
+            </div>
+
+            <div class="nav__end">
+                <nav>
+                    <ul class="nav__list" id="navList">
+                        <li><a class="nav__link" href="../index.html">Research</a></li>
+                        <li><a class="nav__link is-active" href="blogs.html">Writing</a></li>
+                        <li><a class="nav__link" href="read-list.html">Read List</a></li>
+                    </ul>
+                </nav>
+
+                <div class="nav__social">
+                    <a class="nav__icon" href="https://github.com/coder360-crypto" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.4 5 18.4 5.3 18.4 5.3c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+                    </a>
+                    <a class="nav__icon" href="https://www.linkedin.com/in/ashish-patwa-182b2b223/" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 20.5h-3.6v-5.6c0-1.3 0-3-1.8-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6h.05c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.3 2.4 4.3 5.5v6.3zM5.3 7.4a2.1 2.1 0 1 1 0-4.1 2.1 2.1 0 0 1 0 4.1zm1.8 13.1H3.6V9h3.5v11.5zM22.2 0H1.8C.8 0 0 .8 0 1.7v20.6c0 .9.8 1.7 1.8 1.7h20.4c1 0 1.8-.8 1.8-1.7V1.7c0-.9-.8-1.7-1.8-1.7z"/></svg>
+                    </a>
+                    <a class="nav__icon" href="https://scholar.google.com/citations?user=6ay8-fIAAAAJ" target="_blank" rel="noopener" aria-label="Google Scholar" title="Google Scholar">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 24a7 7 0 1 1 0-14 7 7 0 0 1 0 14zm0-24L0 9.5l4.8 3.9A8 8 0 0 1 12 9a8 8 0 0 1 7.2 4.4L24 9.5 12 0z"/></svg>
+                    </a>
+                    <a class="nav__icon" href="mailto:ashishdevvanshi786@gmail.com" aria-label="Email" title="Email">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v.4l-10 5.9L2 5.9v-.4zm0 2.7v10.3A2.5 2.5 0 0 0 4.5 21h15a2.5 2.5 0 0 0 2.5-2.5V8.2l-9.5 5.6a1 1 0 0 1-1 0L2 8.2z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navList">
+                <span class="nav__toggle-bar"></span>
+            </button>
+        </div>
+
+        <!-- Poyo: pixel mascot — stands still, walks to where you click -->
+        <div class="poyo" aria-hidden="true">
+            <span class="poyo__say">poyo!</span>
+            <div class="poyo__char">
+                <svg class="poyo__svg" viewBox="0 0 16 14" shape-rendering="crispEdges" xmlns="http://www.w3.org/2000/svg">
+                    <!-- body -->
+                    <g fill="#ff9ec9">
+                        <rect x="5" y="0" width="6" height="1"/>
+                        <rect x="3" y="1" width="10" height="1"/>
+                        <rect x="2" y="2" width="12" height="1"/>
+                        <rect x="1" y="3" width="14" height="1"/>
+                        <rect x="0" y="4" width="16" height="4"/>
+                        <rect x="1" y="8" width="14" height="1"/>
+                        <rect x="2" y="9" width="12" height="1"/>
+                        <rect x="3" y="10" width="10" height="1"/>
+                        <rect x="4" y="11" width="8" height="1"/>
+                    </g>
+                    <!-- soft upper-left sheen -->
+                    <g fill="#ffc9e2">
+                        <rect x="4" y="1" width="3" height="1"/>
+                        <rect x="3" y="2" width="3" height="1"/>
+                        <rect x="2" y="3" width="2" height="1"/>
+                    </g>
+                    <g fill="#ffeaf4">
+                        <rect x="5" y="1" width="2" height="1"/>
+                        <rect x="4" y="2" width="1" height="1"/>
+                    </g>
+                    <!-- lower-right shading -->
+                    <g fill="#f78ab9">
+                        <rect x="10" y="8" width="5" height="1"/>
+                        <rect x="8" y="9" width="6" height="1"/>
+                        <rect x="4" y="10" width="9" height="1"/>
+                        <rect x="4" y="11" width="8" height="1"/>
+                    </g>
+                    <g fill="#ea7ea9">
+                        <rect x="9" y="10" width="4" height="1"/>
+                        <rect x="6" y="11" width="6" height="1"/>
+                    </g>
+                    <!-- blush -->
+                    <g fill="#ff6fa8">
+                        <rect x="2" y="6" width="2" height="1"/>
+                        <rect x="12" y="6" width="2" height="1"/>
+                    </g>
+                    <!-- eyes -->
+                    <g fill="#ffffff">
+                        <rect x="5" y="2" width="2" height="1"/>
+                        <rect x="9" y="2" width="2" height="1"/>
+                    </g>
+                    <g fill="#2b2540">
+                        <rect x="5" y="3" width="2" height="3"/>
+                        <rect x="9" y="3" width="2" height="3"/>
+                    </g>
+                    <g fill="#6f9ae0">
+                        <rect x="5" y="6" width="2" height="1"/>
+                        <rect x="9" y="6" width="2" height="1"/>
+                    </g>
+                    <!-- mouth -->
+                    <rect x="7" y="8" width="2" height="1" fill="#a83260"/>
+                    <!-- feet: idle (standing), a/b (walk cycle) -->
+                    <g class="poyo-feet poyo-feet--idle">
+                        <g fill="#dd5490">
+                            <rect x="2" y="12" width="5" height="1"/>
+                            <rect x="9" y="12" width="5" height="1"/>
+                        </g>
+                        <g fill="#bb3f73">
+                            <rect x="1" y="13" width="6" height="1"/>
+                            <rect x="9" y="13" width="6" height="1"/>
+                        </g>
+                    </g>
+                    <g class="poyo-feet poyo-feet--a">
+                        <g fill="#dd5490">
+                            <rect x="3" y="12" width="5" height="1"/>
+                            <rect x="8" y="12" width="5" height="1"/>
+                        </g>
+                        <g fill="#bb3f73">
+                            <rect x="2" y="13" width="6" height="1"/>
+                            <rect x="8" y="13" width="6" height="1"/>
+                        </g>
+                    </g>
+                    <g class="poyo-feet poyo-feet--b">
+                        <g fill="#dd5490">
+                            <rect x="1" y="12" width="5" height="1"/>
+                            <rect x="10" y="12" width="5" height="1"/>
+                        </g>
+                        <g fill="#bb3f73">
+                            <rect x="0" y="13" width="6" height="1"/>
+                            <rect x="10" y="13" width="6" height="1"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <article class="article">
+            <div class="container container--wide">
+                <a class="article__back" href="blogs.html">&#8592; all writing</a>
+
+                <header class="article__header">
+                    <span class="article__kicker">/ video + notes &middot; optimizers</span>
+                    <h1 class="article__title">Optimizers, from Gradient Descent to Muon</h1>
+                    <p class="article__dek">The full story behind the video, with the math worked out by hand.</p>
+                    <dl class="article__meta">
+                        <div><dt>Published</dt><dd>Oct 2026</dd></div>
+                        <div><dt>Video</dt><dd>11:40</dd></div>
+                        <div><dt>Reading</dt><dd>23 min</dd></div>
+                    </dl>
+                </header>
+
+                <section class="article__video" id="watch" aria-label="Video">
+                    <video controls preload="metadata" playsinline>
+                        <source src="../assets/videos/optimizers-full-story.mp4#t=0.5" type="video/mp4">
+                        Your browser can't play this video. <a href="../assets/videos/optimizers-full-story.mp4">Download it instead</a>.
+                    </video>
+                </section>
+
+                <div class="article__layout">
+                    <aside class="article__rail">
+                        <nav class="toc" aria-label="Contents">
+                            <span class="rail__label">/ contents</span>
+                            <a class="toc__link" href="#watch">Watch the video</a>
+                            <a class="toc__link" href="#0-the-setup-loss-gradient-learning-rate">00 · The setup: loss, gradient, learning rate</a>
+                            <a class="toc__link" href="#1-gradient-descent">01 · Gradient descent</a>
+                            <a class="toc__link" href="#2-mini-batch-gradient-descent">02 · Mini-batch gradient descent</a>
+                            <a class="toc__link" href="#3-stochastic-gradient-descent-sgd">03 · Stochastic gradient descent (SGD)</a>
+                            <a class="toc__link" href="#4-momentum">04 · Momentum</a>
+                            <a class="toc__link" href="#5-rmsprop">05 · RMSProp</a>
+                            <a class="toc__link" href="#6-adam">06 · Adam</a>
+                            <a class="toc__link" href="#7-adamw">07 · AdamW</a>
+                            <a class="toc__link" href="#8-adafactor-and-lamb">08 · Adafactor and LAMB</a>
+                            <a class="toc__link" href="#9-lion">09 · Lion</a>
+                            <a class="toc__link" href="#10-sophia">10 · Sophia</a>
+                            <a class="toc__link" href="#11-one-idea-about-matrices-svd">11 · One idea about matrices (SVD)</a>
+                            <a class="toc__link" href="#12-shampoo-and-soap">12 · Shampoo and SOAP</a>
+                            <a class="toc__link" href="#13-muon">13 · Muon</a>
+                            <a class="toc__link" href="#14-muon-in-the-real-world">14 · Muon in the real world</a>
+                            <a class="toc__link" href="#15-is-adamw-finished">15 · Is AdamW finished?</a>
+                            <a class="toc__link" href="#16-summary-table-and-timeline">16 · Summary table and timeline</a>
+                        </nav>
+                        <div class="rail__group">
+                            <span class="rail__label">/ tags</span>
+                            <ul class="tile__chips">
+                                <li>optimizers</li>
+                                <li>post-training</li>
+                                <li>muon</li>
+                            </ul>
+                        </div>
+                        <div class="rail__group rail__share">
+                            <span class="rail__label">/ share</span>
+                            <button type="button" class="rail__copy" data-copy-link>copy link</button>
+                        </div>
+                    </aside>
+
+                    <div class="article__body prose">
+                        <p class="article__lede">This is the written companion to the video. Every idea is built from scratch, and every update rule is worked through with real numbers on one small example, so you can check each step with a calculator.</p>
+<h2 id="0-the-setup-loss-gradient-learning-rate"><span class="article__num">00</span>The setup: loss, gradient, learning rate</h2>
+<h3>Loss</h3>
+<p>A model has adjustable numbers called <strong>weights</strong> (or parameters), written $\theta$. The <strong>loss</strong> $L(\theta)$ is one number that says how wrong the model is on the data. Lower is better. Training means finding weights with low loss.</p>
+<h3>The example used everywhere in this document</h3>
+<p>Real networks have billions of weights. To be able to draw everything, we use a model with <strong>two weights</strong>, $\theta = (x, y)$, and a dataset of <strong>200 examples</strong>. Example $i$ has its own loss:</p>
+<div class="math-block">$$\ell_i(x, y) = 0.1\,(x - a_i)^2 + 1.5\,(y - b_i)^2$$</div>
+<p>The $a_i, b_i$ are random numbers centred at zero (spread: $a_i$ about $\pm 2$, $b_i$ about $\pm 0.6$). The total loss is the average over all examples:</p>
+<div class="math-block">$$L(x, y) = \frac{1}{200}\sum_{i=1}^{200} \ell_i(x,y) = 0.1\,x^2 + 1.5\,y^2 + \text{(a constant)}$$</div>
+<p>The constant doesn't affect where the minimum is, so we drop it.</p>
+<ul>
+<li>The minimum is at $(0, 0)$.</li>
+<li>Every optimizer starts at $\theta_0 = (-6.2,\ 2.2)$.</li>
+<li>The starting loss is $L = 0.1(6.2)^2 + 1.5(2.2)^2 = 3.844 + 7.26 = 11.104$.</li>
+</ul>
+<p><strong>Why this shape is hard.</strong> The two coefficients are very different. In the $y$ direction the valley is steep (coefficient $1.5$). In the $x$ direction it's nearly flat (coefficient $0.1$). The contour lines are long, thin ellipses. The ratio of the curvatures, $\frac{3}{0.2} = 15$, is called the <strong>condition number</strong>. Real networks have this problem in millions of directions at once.</p>
+<h3>Gradient</h3>
+<p>The gradient $\nabla L$ is the list of slopes, one per weight. It points <strong>uphill</strong>, in the direction of steepest increase.</p>
+<div class="math-block">$$\nabla L(x, y) = \left(\frac{\partial L}{\partial x},\ \frac{\partial L}{\partial y}\right) = (0.2\,x,\ \ 3\,y)$$</div>
+<p>At the start: $\nabla L(-6.2, 2.2) = (0.2 \times -6.2,\ 3 \times 2.2) = (-1.24,\ 6.6)$.</p>
+<p>So the $y$-slope is more than five times the $x$-slope, even though we're much further from the minimum in $x$ ($6.2$ away) than in $y$ ($2.2$ away). That mismatch drives most of what follows.</p>
+<h3>Learning rate</h3>
+<p>We step <strong>against</strong> the gradient, downhill. How far we go is set by the <strong>learning rate</strong> $\eta$ (eta):</p>
+<div class="math-block">$$\text{step} = -\eta \cdot \text{gradient}$$</div>
+<h2 id="1-gradient-descent"><span class="article__num">01</span>Gradient descent</h2>
+<h3>The rule</h3>
+<div class="math-block">$$\boxed{\ \theta_{t+1} = \theta_t - \eta\,\nabla L(\theta_t)\ }$$</div>
+<p>Here $\nabla L$ is computed using <strong>all 200 examples</strong> every step.</p>
+<h3>Worked example ($\eta = 0.6$)</h3>
+<p><strong>Step 1.</strong> Start at $(-6.2,\ 2.2)$, gradient $(-1.24,\ 6.6)$.</p>
+<div class="math-block">$$x_1 = -6.2 - 0.6(-1.24) = -6.2 + 0.744 = -5.456$$</div>
+<div class="math-block">$$y_1 = 2.2 - 0.6(6.6) = 2.2 - 3.96 = -1.76$$</div>
+<p>Loss: $0.1(5.456)^2 + 1.5(1.76)^2 = 2.977 + 4.646 = 7.623$.</p>
+<p><strong>Step 2.</strong> Gradient at $(-5.456, -1.76)$ is $(-1.0912,\ -5.28)$.</p>
+<div class="math-block">$$x_2 = -5.456 + 0.6(1.0912) = -4.801, \qquad y_2 = -1.76 + 0.6(5.28) = 1.408$$</div>
+<p><strong>Step 3.</strong> Gradient $(-0.9603,\ 4.224)$ gives $x_3 = -4.225$ and $y_3 = -1.126$.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>step</th>
+<th>$x$</th>
+<th>$y$</th>
+<th>loss</th>
+</tr></thead><tbody>
+<tr><td>0</td><td>−6.200</td><td>2.200</td><td>11.104</td></tr>
+<tr><td>1</td><td>−5.456</td><td>−1.760</td><td>7.623</td></tr>
+<tr><td>2</td><td>−4.801</td><td>1.408</td><td>5.279</td></tr>
+<tr><td>3</td><td>−4.225</td><td>−1.126</td><td>3.688</td></tr>
+</tbody></table></div>
+<p>Look at $y$: $2.2 \to -1.76 \to 1.408 \to -1.126$. It <strong>flips sign every step</strong>. That's the zig-zag across the steep walls. Meanwhile $x$ crawls: $-6.2 \to -5.456 \to -4.801$.</p>
+<h3>Why this happens</h3>
+<p>Because this loss is a simple bowl, each coordinate gets multiplied by a fixed number every step:</p>
+<div class="math-block">$$y_{t+1} = y_t - \eta (3 y_t) = (1 - 3\eta)\,y_t, \qquad x_{t+1} = (1 - 0.2\eta)\,x_t$$</div>
+<p>With $\eta = 0.6$:</p>
+<ul>
+<li>$y$ is multiplied by $1 - 1.8 = -0.8$: it flips sign and shrinks 20% each step.</li>
+<li>$x$ is multiplied by $1 - 0.12 = 0.88$: it shrinks only 12% each step.</li>
+</ul>
+<p><strong>The trap.</strong> To speed up $x$ you'd want a bigger $\eta$. But $y$ stays stable only while $|1 - 3\eta| &lt; 1$, which means $\eta &lt; 0.667$. Above that, $y$ blows up. <strong>The steepest direction caps the learning rate for every direction.</strong> After 25 steps, gradient descent reaches $(-0.254,\ -0.008)$. $y$ is basically solved, but $x$ is still lagging.</p>
+<h3>Cost</h3>
+<p>Each step needs the gradient of all 200 examples. With millions of examples, that's far too slow.</p>
+<h2 id="2-mini-batch-gradient-descent"><span class="article__num">02</span>Mini-batch gradient descent</h2>
+<h3>The rule</h3>
+<p>Pick a random <strong>batch</strong> $B$ of examples (here $|B| = 16$) and average only their gradients:</p>
+<div class="math-block">$$\boxed{\ \theta_{t+1} = \theta_t - \eta\,\frac{1}{|B|}\sum_{i \in B}\nabla \ell_i(\theta_t)\ }$$</div>
+<h3>How noisy is that estimate?</h3>
+<p>For one example, the $y$-part of the gradient is $\frac{\partial \ell_i}{\partial y} = 3(y - b_i)$. Its average over all examples is the true slope $3y$. It varies from example to example because $b_i$ varies.</p>
+<ul>
+<li>Spread of $b_i$: about $0.6$.</li>
+<li>So the spread of a single example's $y$-gradient is about $3 \times 0.6 = 1.8$.</li>
+<li>Averaging $n$ independent samples shrinks the spread by $\sqrt{n}$. With 16 examples, the spread is about $\frac{1.8}{\sqrt{16}} = 0.45$.</li>
+</ul>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>method</th>
+<th>examples per step</th>
+<th>cost per step</th>
+<th>noise in $y$-gradient</th>
+</tr></thead><tbody>
+<tr><td>Gradient descent</td><td>200</td><td>200</td><td>0</td></tr>
+<tr><td>Mini-batch (16)</td><td>16</td><td>16</td><td>≈ 0.45</td></tr>
+<tr><td>SGD</td><td>1</td><td>1</td><td>≈ 1.8</td></tr>
+</tbody></table></div>
+<p>Mini-batch steps are <strong>12.5× cheaper</strong> than full gradient descent, with a little noise added. In practice you take many more of them for the same compute, and you usually come out ahead. This is how essentially all deep learning is trained. Batches of millions of tokens are common for LLMs.</p>
+<h2 id="3-stochastic-gradient-descent-sgd"><span class="article__num">03</span>Stochastic gradient descent (SGD)</h2>
+<h3>The rule</h3>
+<p>Use <strong>one random example</strong> per step:</p>
+<div class="math-block">$$\boxed{\ \theta_{t+1} = \theta_t - \eta\,\nabla \ell_i(\theta_t), \quad i \text{ chosen at random}\ }$$</div>
+<h3>What happens</h3>
+<p>With $\eta = 0.2$, the random part of each $y$-step is about $0.2 \times 1.8 = 0.36$, so the path jitters visibly. On average it still goes downhill, because the average of single-example gradients equals the true gradient. Each step costs 1/200 of a gradient descent step.</p>
+<p>A side benefit: the noise can shake the model out of shallow, poor spots in a bumpy landscape.</p>
+<aside class="callout"><p>In everyday speech "SGD" usually means mini-batch SGD (small batches, not literally one example), and almost always <strong>with momentum</strong>, which is next.</p></aside>
+<h2 id="4-momentum"><span class="article__num">04</span>Momentum</h2>
+<h3>The idea</h3>
+<p>Don't follow only today's gradient. Keep a <strong>running sum of recent gradients</strong>, called the velocity $v$, and step along that. Think of a heavy ball rolling downhill.</p>
+<ul>
+<li>Pushes that keep flipping direction (the zig-zag in $y$) <strong>cancel out</strong>.</li>
+<li>Pushes that keep pointing the same way (along the valley floor in $x$) <strong>add up</strong>.</li>
+</ul>
+<h3>The rule (heavy-ball momentum, $\beta$ = how much of the past to keep)</h3>
+<div class="math-block">$$\boxed{\ v_{t+1} = \beta\, v_t + \nabla L(\theta_t), \qquad \theta_{t+1} = \theta_t - \eta\, v_{t+1}\ }$$</div>
+<h3>Worked example ($\eta = 0.1$, $\beta = 0.8$, $v_0 = 0$)</h3>
+<p><strong>Step 1.</strong> $g = (-1.24,\ 6.6)$, so $v_1 = (-1.24,\ 6.6)$ and $\theta_1 = (-6.2 + 0.124,\ 2.2 - 0.66) = (-6.076,\ 1.54)$.</p>
+<p><strong>Step 2.</strong> $g = (-1.2152,\ 4.62)$.</p>
+<div class="math-block">$$v_2 = 0.8(-1.24,\ 6.6) + (-1.2152,\ 4.62) = (-2.2072,\ 9.9)$$</div>
+<div class="math-block">$$\theta_2 = (-6.076 + 0.2207,\ 1.54 - 0.99) = (-5.855,\ 0.55)$$</div>
+<p><strong>Step 3.</strong> $g = (-1.1711,\ 1.65)$, so $v_3 = (-2.9368,\ 9.57)$ and $\theta_3 = (-5.562,\ -0.407)$.</p>
+<p>Watch $v_x$: $-1.24 \to -2.21 \to -2.94$. It <strong>keeps growing</strong>, because the $x$-gradient always points the same way. The step in $x$ grows from $0.124$ to $0.294$.</p>
+<h3>How much speed-up?</h3>
+<p>If the gradient $g$ stays the same, the velocity settles where $v = \beta v + g$, so $v = \frac{g}{1-\beta}$. With $\beta = 0.8$ that's $5g$. <strong>Along a steady slope, momentum acts like a learning rate 5× larger</strong>, but only in the directions where the pushes agree. Oscillating directions don't build up.</p>
+<p>In the video, momentum reaches the minimum in about 45 steps, with a smooth curving path instead of a zig-zag.</p>
+<aside class="callout"><p>Adam, Lion and Muon all start from momentum.</p></aside>
+<h2 id="5-rmsprop"><span class="article__num">05</span>RMSProp</h2>
+<h3>The problem it solves</h3>
+<p>Momentum fixes the direction, but every weight still shares <strong>one</strong> learning rate, and the steep direction still caps it. RMSProp (Hinton, 2012) gives <strong>each weight its own step size</strong>.</p>
+<h3>The rule</h3>
+<p>Keep a running average of each weight's <strong>squared</strong> gradient, then divide the step by its square root:</p>
+<div class="math-block">$$\boxed{\ s_{t+1} = \beta\, s_t + (1-\beta)\, g_t^2, \qquad \theta_{t+1} = \theta_t - \eta\,\frac{g_t}{\sqrt{s_{t+1}} + \epsilon}\ }$$</div>
+<ul>
+<li>Everything is done <strong>per weight</strong> (element by element).</li>
+<li>$\sqrt{s}$ is roughly "the typical size of this weight's gradient".</li>
+<li>$\epsilon$ is a tiny number (like $10^{-8}$) to avoid dividing by zero.</li>
+</ul>
+<p>Dividing $g$ by its typical size gives a number around $\pm 1$. Every weight then takes steps of roughly size $\eta$, whether its slope is steep or flat.</p>
+<ul>
+<li><strong>Steep weight:</strong> big $g$, big $\sqrt{s}$, normal-sized step.</li>
+<li><strong>Flat weight:</strong> small $g$, small $\sqrt{s}$, also a normal-sized step.</li>
+</ul>
+<p>So the flat direction is no longer starved.</p>
+<h3>Worked example ($\eta = 0.25$, $\beta = 0.9$, $s_0 = 0$)</h3>
+<p><strong>Step 1.</strong> $g = (-1.24,\ 6.6)$, so $g^2 = (1.5376,\ 43.56)$.</p>
+<div class="math-block">$$s_1 = 0.1 \times (1.5376,\ 43.56) = (0.1538,\ 4.356)$$</div>
+<div class="math-block">$$\sqrt{s_1} = (0.3921,\ 2.0871)$$</div>
+<div class="math-block">$$\text{step} = 0.25 \times \left(\frac{-1.24}{0.3921},\ \frac{6.6}{2.0871}\right) = 0.25 \times (-3.162,\ 3.162) = (-0.791,\ 0.791)$$</div>
+<div class="math-block">$$\theta_1 = (-6.2 + 0.791,\ 2.2 - 0.791) = (-5.409,\ 1.409)$$</div>
+<p>Both coordinates moved the <strong>same distance</strong>, $0.79$, even though their slopes differ by more than 5×.</p>
+<p><strong>Step 2.</strong> $g = (-1.0819,\ 4.2283)$, so $s_2 = (0.2554,\ 5.7082)$, the step is $(-0.535,\ 0.442)$ and $\theta_2 = (-4.874,\ 0.967)$.</p>
+<p><strong>Step 3.</strong> The step is $(-0.428,\ 0.297)$, giving $\theta_3 = (-4.447,\ 0.670)$.</p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>step</th>
+<th>$x$</th>
+<th>$y$</th>
+</tr></thead><tbody>
+<tr><td>0</td><td>−6.200</td><td>2.200</td></tr>
+<tr><td>1</td><td>−5.409</td><td>1.409</td></tr>
+<tr><td>2</td><td>−4.874</td><td>0.967</td></tr>
+<tr><td>3</td><td>−4.447</td><td>0.670</td></tr>
+</tbody></table></div>
+<p>No zig-zag: $y$ goes smoothly to zero, and $x$ moves much faster than with plain gradient descent.</p>
+<aside class="callout"><p><strong>A wrinkle:</strong> at step 1, $s$ is only 10% of its proper value, because it started at zero. That's why the first step is a bit big. $\frac{1}{\sqrt{0.1}} = 3.16$, so steps are about $0.79$ instead of about $0.25$. Adam fixes this.</p></aside>
+<h2 id="6-adam"><span class="article__num">06</span>Adam</h2>
+<h3>The rule</h3>
+<p>Adam (Kingma &amp; Ba, 2014) combines <strong>momentum</strong> (for the direction) with <strong>RMSProp</strong> (for the size), plus a <strong>bias correction</strong>:</p>
+<div class="math-block">$$m_{t} = \beta_1\, m_{t-1} + (1-\beta_1)\, g_t \qquad \text{(momentum: average gradient)}$$</div>
+<div class="math-block">$$s_{t} = \beta_2\, s_{t-1} + (1-\beta_2)\, g_t^2 \qquad \text{(average squared gradient)}$$</div>
+<div class="math-block">$$\hat m_t = \frac{m_t}{1-\beta_1^{\,t}}, \qquad \hat s_t = \frac{s_t}{1-\beta_2^{\,t}} \qquad \text{(bias correction)}$$</div>
+<div class="math-block">$$\boxed{\ \theta_{t} = \theta_{t-1} - \eta\,\frac{\hat m_t}{\sqrt{\hat s_t} + \epsilon}\ }$$</div>
+<p>Typical values are $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\epsilon = 10^{-8}$.</p>
+<h3>Why the bias correction?</h3>
+<p>$m$ and $s$ start at zero, so early on they're too small.</p>
+<ul>
+<li>After step 1: $m_1 = 0.1\,g_1$, only 10% of the real gradient.</li>
+<li>Dividing by $1 - 0.9^1 = 0.1$ gives $\hat m_1 = g_1$ exactly.</li>
+<li>Likewise $s_1 = 0.001\,g_1^2$, and dividing by $1 - 0.999 = 0.001$ gives $\hat s_1 = g_1^2$.</li>
+</ul>
+<p>As $t$ grows, $\beta^t \to 0$ and the correction fades away.</p>
+<h3>Worked example ($\eta = 0.3$)</h3>
+<p><strong>Step 1.</strong> $g = (-1.24,\ 6.6)$.</p>
+<div class="math-block">$$m_1 = (-0.124,\ 0.66), \qquad s_1 = (0.0015,\ 0.0436)$$</div>
+<div class="math-block">$$\hat m_1 = (-1.24,\ 6.6), \qquad \hat s_1 = (1.5376,\ 43.56), \qquad \sqrt{\hat s_1} = (1.24,\ 6.6)$$</div>
+<div class="math-block">$$\text{step} = 0.3 \times \left(\frac{-1.24}{1.24},\ \frac{6.6}{6.6}\right) = 0.3 \times (-1,\ 1) = (-0.3,\ 0.3)$$</div>
+<div class="math-block">$$\theta_1 = (-5.9,\ 1.9)$$</div>
+<p>On the very first step, Adam moves <strong>exactly $\eta$ in every coordinate</strong>, in the direction of the gradient's sign.</p>
+<p><strong>Step 2.</strong> $g = (-1.18,\ 5.7)$.</p>
+<div class="math-block">$$m_2 = 0.9(-0.124,\ 0.66) + 0.1(-1.18,\ 5.7) = (-0.2296,\ 1.164)$$</div>
+<div class="math-block">$$\hat m_2 = m_2 / (1 - 0.81) = (-1.2084,\ 6.1263)$$</div>
+<div class="math-block">$$s_2 = (0.0029,\ 0.0760), \qquad \hat s_2 = s_2/(1-0.998001) = (1.465,\ 38.022)$$</div>
+<div class="math-block">$$\text{step} = 0.3 \times \left(\frac{-1.2084}{1.2104},\ \frac{6.1263}{6.1662}\right) = (-0.2995,\ 0.2981)$$</div>
+<div class="math-block">$$\theta_2 = (-5.6005,\ 1.6019)$$</div>
+<p><strong>Step 3.</strong> $\theta_3 = (-5.3018,\ 1.3076)$.</p>
+<p>Over 60 steps the path dips below the valley floor (momentum carries it past), then settles near $(-0.09,\ 0.07)$.</p>
+<h3>Memory</h3>
+<p>For <strong>every weight</strong>, Adam stores two extra numbers ($m$ and $s$). A 7-billion-weight model needs 14 billion extra numbers just for the optimizer. This comes back with Adafactor and Lion.</p>
+<h2 id="7-adamw"><span class="article__num">07</span>AdamW</h2>
+<p>AdamW (Loshchilov &amp; Hutter, 2017–2019) is a small fix with a big effect. To see why it exists, you first need <strong>weight decay</strong>.</p>
+<h3>Step 1: what is weight decay?</h3>
+<p>On every step, shrink every weight a little toward zero by the same fraction:</p>
+<div class="math-block">$$\theta \leftarrow \theta - \eta\,\lambda\,\theta = (1 - \eta\lambda)\,\theta$$</div>
+<p>$\lambda$ is the decay strength. Keeping weights small usually helps the model work better on data it hasn't seen.</p>
+<p><strong>Example:</strong> $\eta = 0.1$ and $\lambda = 0.01$. Each step multiplies every weight by $1 - 0.001 = 0.999$. A weight of $1.0$ becomes $0.999$. A weight of $5.0$ becomes $4.995$. Every weight loses the same 0.1%.</p>
+<h3>Step 2: the old trick, putting it in the gradient (works for SGD)</h3>
+<p>Instead of shrinking separately, add $\lambda\theta$ to the gradient. This is called <strong>L2 regularization</strong>, and it's the same as adding $\frac{\lambda}{2}\|\theta\|^2$ to the loss:</p>
+<div class="math-block">$$g \leftarrow g + \lambda\theta$$</div>
+<p>With plain SGD this gives <strong>exactly</strong> weight decay:</p>
+<div class="math-block">$$\theta - \eta\,(g + \lambda\theta) = \underbrace{(1-\eta\lambda)\,\theta}_{\text{same shrink}} - \eta g \quad\checkmark$$</div>
+<h3>Step 3: Adam breaks it</h3>
+<p>Adam divides the gradient by $\sqrt{s}$, so the extra $\lambda\theta$ <strong>gets divided too</strong>:</p>
+<div class="math-block">$$\theta \leftarrow \theta - \eta\,\frac{g + \lambda\theta}{\sqrt{s}}$$</div>
+<p><strong>Worked example.</strong> Two weights, both currently $\theta = 1.0$, with $\lambda = 0.01$ and $\eta = 0.1$.</p>
+<ul>
+<li><strong>Weight A</strong> usually has big gradients: $\sqrt{s_A} = 10$.</li>
+<li><strong>Weight B</strong> usually has small gradients: $\sqrt{s_B} = 0.1$.</li>
+</ul>
+<p>The decay part of each step:</p>
+<div class="math-block">$$\text{A: } \ \eta\cdot\frac{\lambda\theta}{\sqrt{s_A}} = 0.1 \times \frac{0.01}{10} = 0.0001$$</div>
+<div class="math-block">$$\text{B: } \ \eta\cdot\frac{\lambda\theta}{\sqrt{s_B}} = 0.1 \times \frac{0.01}{0.1} = 0.01$$</div>
+<p>We asked for a 0.1% shrink on both. A shrinks by <strong>0.01%</strong>: its pull was divided by 10, so it barely shrinks. B shrinks by <strong>1%</strong>: its pull was divided by 0.1, which multiplies it by 10. That's a <strong>100× difference</strong>, tied to gradient sizes, which is not what we asked for.</p>
+<h3>Step 4: AdamW keeps them apart</h3>
+<p>The "W" stands for decoupled <strong>weight decay</strong>. Take Adam's normal step using only the real gradient, then shrink separately:</p>
+<div class="math-block">$$\boxed{\ \theta \leftarrow \theta - \eta\left(\frac{\hat m}{\sqrt{\hat s}+\epsilon} + \lambda\,\theta\right)\ }$$</div>
+<p>Now A and B both lose exactly $\eta\lambda\theta = 0.001$, which is 0.1%. ✓</p>
+<p>AdamW also makes the best learning rate and the best $\lambda$ much less dependent on each other, so it's easier to tune. It became the <strong>standard optimizer for large language models</strong> for about six years, and it still is for many.</p>
+<h2 id="8-adafactor-and-lamb"><span class="article__num">08</span>Adafactor and LAMB</h2>
+<h3>Adafactor (Google, 2018): saving memory</h3>
+<p>For a weight matrix with $n$ rows and $m$ columns, Adam stores an $n \times m$ grid $V$ of squared-gradient averages. Adafactor keeps <strong>one number per row</strong> ($R$) and <strong>one per column</strong> ($C$) and rebuilds the grid from them:</p>
+<div class="math-block">$$\hat V_{ij} = \frac{R_i \, C_j}{\sum_k R_k}$$</div>
+<p><strong>Worked example.</strong> A $4 \times 3$ grid:</p>
+<div class="math-block">$$V = \begin{bmatrix} 4 &amp; 1 &amp; 0.25 \\ 16 &amp; 4 &amp; 1 \\ 1 &amp; 0.25 &amp; 0.0625 \\ 9 &amp; 2.25 &amp; 0.5625 \end{bmatrix}$$</div>
+<ul>
+<li>Row sums: $R = (5.25,\ 21,\ 1.3125,\ 11.8125)$.</li>
+<li>Column sums: $C = (30,\ 7.5,\ 1.875)$.</li>
+<li>Total: $39.375$.</li>
+<li>Rebuild one entry: $\hat V_{21} = \frac{21 \times 30}{39.375} = 16$ ✓, and $\hat V_{13} = \frac{5.25 \times 1.875}{39.375} = 0.25$ ✓.</li>
+</ul>
+<p>The grid is stored as $4 + 3 = 7$ numbers instead of $12$. (This example rebuilds exactly because it was made from one row pattern times one column pattern. Real grids are only approximated, but well enough in practice.)</p>
+<p><strong>At real scale:</strong> for a $4096 \times 4096$ matrix, that's $16{,}777{,}216$ numbers vs $8{,}192$, about <strong>2,000× less</strong>. Adafactor was used to train Google's T5 models.</p>
+<h3>LAMB (2019): very large batches</h3>
+<p>With huge batches, one global learning rate can be too big for some layers and too small for others. LAMB computes an Adam-style update $u$ for each layer, then rescales it by a <strong>trust ratio</strong> $\frac{\|w\|}{\|u\|}$ (the size of the layer's weights over the size of its update):</p>
+<div class="math-block">$$w \leftarrow w - \eta\,\frac{\|w\|}{\|u\|}\,u$$</div>
+<p>The step length becomes $\eta\,\|w\|$: <strong>each layer's step is proportional to the size of its weights.</strong></p>
+<p><strong>Example ($\eta = 0.01$):</strong></p>
+<ul>
+<li>Layer 1 has $\|w\| = 10$, $\|u\| = 0.5$. Trust ratio $20$; step length $0.01 \times 10 = 0.1$.</li>
+<li>Layer 2 has $\|w\| = 1$, $\|u\| = 0.5$. Trust ratio $2$; step length $0.01$.</li>
+</ul>
+<p>Each layer changes by about 1% of its size per step. LAMB trained BERT in about 76 minutes.</p>
+<h2 id="9-lion"><span class="article__num">09</span>Lion</h2>
+<h3>The idea</h3>
+<p>Lion (Google, 2023) was found by an <strong>automated search over update rules</strong>. It's very simple. Blend the momentum with the new gradient, then keep <strong>only the sign</strong> of each number ($+1$ or $-1$):</p>
+<div class="math-block">$$c_t = \beta_1\, m_{t-1} + (1-\beta_1)\, g_t$$</div>
+<div class="math-block">$$\boxed{\ \theta_t = \theta_{t-1} - \eta\,\big(\mathrm{sign}(c_t) + \lambda\,\theta_{t-1}\big)\ }$$</div>
+<div class="math-block">$$m_t = \beta_2\, m_{t-1} + (1-\beta_2)\, g_t$$</div>
+<p>Defaults are $\beta_1 = 0.9$ and $\beta_2 = 0.99$.</p>
+<p><strong>Every weight moves by exactly $\eta$</strong>, up or down. Adam computes a separate step size for each weight; Lion throws the size away and keeps only the direction.</p>
+<h3>Compare with Adam on a 5-weight example</h3>
+<p>Suppose the momentum for five weights is $(0.8,\ -0.05,\ 2.4,\ -0.6,\ 0.15)$.</p>
+<ul>
+<li><strong>Adam's</strong> steps have five different sizes (each divided by its own $\sqrt{\hat s}$).</li>
+<li><strong>Lion's</strong> steps are $\eta \times (+1,\ -1,\ +1,\ -1,\ +1)$, all the same size.</li>
+</ul>
+<h3>Worked example on our map ($\eta = 0.25$, shrinking linearly to 0 over 50 steps)</h3>
+<p><strong>Step 1.</strong> $m_0 = 0$, so $c_1 = 0.1 \times (-1.24,\ 6.6) = (-0.124,\ 0.66)$. Then $\mathrm{sign}(c_1) = (-1,\ +1)$ and</p>
+<div class="math-block">$$\theta_1 = (-6.2 + 0.25,\ 2.2 - 0.25) = (-5.95,\ 1.95)$$</div>
+<p><strong>Step 2.</strong> The learning rate is now $0.245$. $c_2 = (-0.1302,\ 0.6444)$, so $\theta_2 = (-5.705,\ 1.705)$.</p>
+<p><strong>Step 3.</strong> $\theta_3 = (-5.465,\ 1.465)$.</p>
+<p>Lion moves <strong>diagonally</strong>, the same distance in $x$ and $y$, until the signs start flipping near the floor of the valley.</p>
+<h3>Practical notes</h3>
+<ul>
+<li><strong>Memory:</strong> Lion stores only $m$, which is <strong>half</strong> of Adam's extra memory.</li>
+<li><strong>Learning rate:</strong> because every step is full-sized, it needs one <strong>3–10× smaller</strong> than AdamW's, with a weight decay 3–10× larger.</li>
+<li><strong>Big idea to keep:</strong> <em>ignore how big the update is; keep only its direction.</em> Muon applies this same idea to whole matrices.</li>
+</ul>
+<h2 id="10-sophia"><span class="article__num">10</span>Sophia</h2>
+<p>Sophia (2023) uses <strong>curvature</strong>: how sharply the loss bends. For one weight with loss $\frac{h}{2}\theta^2$, the curvature is $h$ (the second derivative). The ideal step, called Newton's step, is gradient ÷ curvature. Big curvature means a small step; small curvature means a big step.</p>
+<p>Sophia keeps a cheap estimate $h$ of each weight's curvature (refreshed every few steps) and uses a clipped Newton step:</p>
+<div class="math-block">$$\theta \leftarrow \theta - \eta\cdot\mathrm{clip}\!\left(\frac{m}{\max(\gamma h,\ \epsilon)},\ 1\right)$$</div>
+<p><strong>On our map</strong>, the curvatures are exactly $h = (0.2,\ 3)$. At the start, $m \approx g = (-1.24,\ 6.6)$:</p>
+<div class="math-block">$$\frac{m}{h} = \left(\frac{-1.24}{0.2},\ \frac{6.6}{3}\right) = (-6.2,\ 2.2)$$</div>
+<p>That's exactly our position. A pure Newton step would jump <strong>straight to the minimum in one step</strong>, which is the dream on a bowl-shaped loss. On real, bumpy losses that can be wildly wrong, so Sophia clips each coordinate to at most $\pm 1$ before multiplying by $\eta$.</p>
+<p><strong>Verdict:</strong> strong early results (about 2× on GPT-2-sized models). Later careful comparisons found smaller gains, and it hasn't been adopted for large models.</p>
+<h2 id="11-one-idea-about-matrices-svd"><span class="article__num">11</span>One idea about matrices (SVD)</h2>
+<p>Everything so far treats weights as a <strong>flat list of numbers</strong>. But most weights in a network live in <strong>matrices</strong>: a layer computes $\text{output} = W \times \text{input}$. To understand Shampoo and Muon you need one fact about matrices.</p>
+<h3>Every matrix is rotate, stretch, rotate</h3>
+<p>Any matrix $W$ can be written as</p>
+<div class="math-block">$$W = U\,\Sigma\,V^\top$$</div>
+<ul>
+<li>$V^\top$ <strong>rotates</strong> (the input directions).</li>
+<li>$\Sigma$ is diagonal: it <strong>stretches</strong> along the axes by amounts $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$, the <strong>singular values</strong>.</li>
+<li>$U$ <strong>rotates</strong> again (to the output directions).</li>
+</ul>
+<h3>Worked example</h3>
+<div class="math-block">$$W = \begin{bmatrix} 1.5 &amp; 0.9 \\ 0.25 &amp; 0.6 \end{bmatrix}$$</div>
+<p>Its singular values are $\sigma_1 = 1.829$ and $\sigma_2 = 0.369$.</p>
+<ul>
+<li>The input direction $v_1 = (0.823,\ 0.568)$ gets stretched the most.</li>
+<li>It lands on the output direction $u_1 = (0.954,\ 0.299)$.</li>
+</ul>
+<p>Check:</p>
+<div class="math-block">$$W v_1 = (1.5(0.823) + 0.9(0.568),\ \ 0.25(0.823) + 0.6(0.568)) = (1.746,\ 0.546)$$</div>
+<p>and $1.829 \times (0.954,\ 0.299) = (1.745,\ 0.547)$ ✓.</p>
+<p><strong>Picture:</strong> feed in every point of a unit circle. $W$ turns it into an <strong>ellipse</strong> whose long half-axis is $1.829$ (along $u_1$) and whose short half-axis is $0.369$. One direction gets stretched about 5× more than the other.</p>
+<h3>Why this matters for training</h3>
+<p>The <strong>update</strong> for a weight matrix (its gradient, or its momentum) is a matrix too, so it also has singular values. In real transformers these update matrices are often <strong>badly lopsided</strong>: a few directions get almost all of the push, and many directions get almost nothing. The layer keeps learning more about the same few directions and barely changes in the rest.</p>
+<p>Our example momentum matrix:</p>
+<div class="math-block">$$M = \begin{bmatrix} 3.0 &amp; 0.8 \\ 0.6 &amp; 0.4 \end{bmatrix}, \qquad \sigma_1 = 3.179,\ \ \sigma_2 = 0.2265$$</div>
+<p>The ratio is $\frac{3.179}{0.2265} \approx 14$. One direction is pushed <strong>14× harder</strong> than the other.</p>
+<h2 id="12-shampoo-and-soap"><span class="article__num">12</span>Shampoo and SOAP</h2>
+<h3>Shampoo (2018)</h3>
+<p>Shampoo treats each weight matrix <strong>as a whole</strong>. It accumulates statistics of the gradients $G$ over time:</p>
+<div class="math-block">$$L \leftarrow L + G\,G^\top \quad (\text{rows}), \qquad R \leftarrow R + G^\top G \quad (\text{columns})$$</div>
+<p>and updates with</p>
+<div class="math-block">$$\boxed{\ W \leftarrow W - \eta\; L^{-1/4}\, G\, R^{-1/4}\ }$$</div>
+<p>The $-\frac{1}{4}$ powers tone down directions that have been pushed a lot and boost directions that have been neglected.</p>
+<p><strong>Cost:</strong> taking the $-\frac14$ power of a matrix is expensive (it needs an eigen-decomposition), so it's usually recomputed only every so often. Memory is extra $n \times n$ and $m \times m$ matrices per layer. Still, a <strong>distributed version of Shampoo won the external-tuning track of the AlgoPerf 2024 training benchmark</strong>.</p>
+<h3>SOAP (2024)</h3>
+<p>SOAP runs <strong>Adam inside Shampoo's rotated coordinates</strong>: rotate into Shampoo's view of the matrix, do an Adam update there, rotate back. It's more stable and easier to tune than Shampoo. It's Muon's main matrix-based rival.</p>
+<h3>A key fact (used again in Muon)</h3>
+<p>If Shampoo had <strong>no memory</strong> and used only the current matrix $G = U\Sigma V^\top$:</p>
+<div class="math-block">$$G G^\top = U\Sigma^2 U^\top \;\Rightarrow\; (GG^\top)^{-1/4} = U\Sigma^{-1/2}U^\top$$</div>
+<div class="math-block">$$G^\top G = V\Sigma^2 V^\top \;\Rightarrow\; (G^\top G)^{-1/4} = V\Sigma^{-1/2}V^\top$$</div>
+<div class="math-block">$$(GG^\top)^{-1/4}\; G\; (G^\top G)^{-1/4} = U\Sigma^{-1/2}\,\cancel{U^\top U}\,\Sigma\,\cancel{V^\top V}\,\Sigma^{-1/2}V^\top = U\,V^\top$$</div>
+<p>The stretches cancel exactly: $\Sigma^{-1/2}\,\Sigma\,\Sigma^{-1/2} = I$. <strong>Memory-free Shampoo is exactly Muon's update</strong> (next section). For our $M$, both give the same matrix:</p>
+<div class="math-block">$$U V^\top = \begin{bmatrix} 0.9983 &amp; 0.0587 \\ -0.0587 &amp; 0.9983 \end{bmatrix}$$</div>
+<h2 id="13-muon"><span class="article__num">13</span>Muon</h2>
+<p><strong>M</strong>oment<strong>U</strong>m <strong>O</strong>rthogonalized by <strong>N</strong>ewton–Schulz. Introduced by Keller Jordan at the end of 2024.</p>
+<h3>The idea in one line</h3>
+<p>It's Lion's idea, <em>keep the direction, drop the size</em>, applied to a <strong>whole matrix</strong>.</p>
+<ol>
+<li>Take the momentum matrix $M = U\Sigma V^\top$.</li>
+<li>Keep both rotations, $U$ and $V$.</li>
+<li>Set every stretch to <strong>1</strong>, replacing $\Sigma$ with $I$:</li>
+</ol>
+<div class="math-block">$$O = U\,V^\top$$</div>
+<p>$O$ is an <strong>orthogonal</strong> matrix: it turns a circle into a circle, so <strong>every direction gets the same push</strong>.</p>
+<p><strong>Check with our $M$:</strong> $O = \begin{bmatrix} 0.9983 &amp; 0.0587 \\ -0.0587 &amp; 0.9983 \end{bmatrix}$ and $O\,O^\top = I$ ✓. The stretches go from $(3.179,\ 0.2265)$ to $(1,\ 1)$. The neglected direction now gets the same push as the dominant one.</p>
+<aside class="callout"><p><strong>Connection to Lion:</strong> for a <em>diagonal</em> matrix $\mathrm{diag}(m_1, m_2)$, the rotations are trivial, and $UV^\top = \mathrm{diag}(\mathrm{sign}\,m_1,\ \mathrm{sign}\,m_2)$. That's exactly Lion's sign update. Muon is "sign" generalized to matrices.</p></aside>
+<h3>The catch: computing $UV^\top$ quickly</h3>
+<p>Computing the SVD exactly is <strong>slow on GPUs</strong>. Muon uses <strong>Newton–Schulz</strong>: a few rounds of plain matrix multiplication, which GPUs are very fast at.</p>
+<p><strong>Step 0: normalize.</strong> Divide by the Frobenius norm (square root of the sum of squares of all entries), which guarantees every $\sigma \le 1$:</p>
+<div class="math-block">$$\|M\|_F = \sqrt{3^2 + 0.8^2 + 0.6^2 + 0.4^2} = \sqrt{10.16} = 3.1875$$</div>
+<div class="math-block">$$X_0 = \frac{M}{3.1875} = \begin{bmatrix} 0.9412 &amp; 0.2510 \\ 0.1882 &amp; 0.1255 \end{bmatrix}, \qquad \sigma = (0.9975,\ 0.0710)$$</div>
+<p><strong>Each round:</strong></p>
+<div class="math-block">$$\boxed{\ X \leftarrow a\,X + b\,(XX^\top)X + c\,(XX^\top)^2 X, \qquad (a, b, c) = (3.4445,\ -4.7750,\ 2.0315)\ }$$</div>
+<p><strong>Why this works.</strong> Write $X = U\Sigma V^\top$, so $XX^\top = U\Sigma^2U^\top$. Then</p>
+<div class="math-block">$$aX + b(XX^\top)X + c(XX^\top)^2X = U\,(a\Sigma + b\Sigma^3 + c\Sigma^5)\,V^\top$$</div>
+<p>Each round <strong>keeps $U$ and $V$</strong> and applies the polynomial</p>
+<div class="math-block">$$p(\sigma) = 3.4445\,\sigma - 4.7750\,\sigma^3 + 2.0315\,\sigma^5$$</div>
+<p>to <strong>every stretch value separately</strong>. We never compute $U$, $\Sigma$ or $V$; only multiplications are needed.</p>
+<p><strong>What the polynomial does:</strong></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>$\sigma$ in</th>
+<th>0.05</th>
+<th>0.1</th>
+<th>0.2</th>
+<th>0.3</th>
+<th>0.5</th>
+<th>0.7</th>
+<th>0.9</th>
+<th>1.0</th>
+<th>1.1</th>
+<th>1.2</th>
+</tr></thead><tbody>
+<tr><td>$p(\sigma)$ out</td><td>0.172</td><td>0.340</td><td>0.651</td><td>0.909</td><td>1.189</td><td>1.115</td><td>0.819</td><td>0.701</td><td>0.705</td><td>0.937</td></tr>
+</tbody></table></div>
+<ul>
+<li><strong>Small values get pushed up hard.</strong> Near zero, $p(\sigma) \approx 3.44\,\sigma$, more than tripling each round.</li>
+<li><strong>Large values get pulled down</strong>, toward about $0.7$–$1.2$.</li>
+<li>The coefficients were chosen to boost small values as fast as possible. The price is that values bounce around in a band instead of landing exactly on 1.</li>
+</ul>
+<p><strong>Round 1 by hand.</strong></p>
+<div class="math-block">$$XX^\top = \begin{bmatrix} 0.9488 &amp; 0.2087 \\ 0.2087 &amp; 0.0512 \end{bmatrix}, \quad (XX^\top)^2 = \begin{bmatrix} 0.9438 &amp; 0.2087 \\ 0.2087 &amp; 0.0462 \end{bmatrix}$$</div>
+<div class="math-block">$$b\,XX^\top + c\,(XX^\top)^2 = \begin{bmatrix} -2.6133 &amp; -0.5725 \\ -0.5725 &amp; -0.1506 \end{bmatrix}$$</div>
+<div class="math-block">$$X_1 = 3.4445\,X_0 + \begin{bmatrix} -2.6133 &amp; -0.5725 \\ -0.5725 &amp; -0.1506 \end{bmatrix} X_0 = \begin{bmatrix} 0.6746 &amp; 0.1368 \\ 0.0812 &amp; 0.2697 \end{bmatrix}$$</div>
+<p>Check with the polynomial: $p(0.9975) = 0.703$ and $p(0.0710) = 0.243$. These match the singular values of $X_1$ ✓.</p>
+<p><strong>All five rounds:</strong></p>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>round</th>
+<th>$\sigma_1$</th>
+<th>$\sigma_2$</th>
+</tr></thead><tbody>
+<tr><td>0 (normalized $M$)</td><td>0.998</td><td><strong>0.071</strong></td></tr>
+<tr><td>1</td><td>0.703</td><td>0.243</td></tr>
+<tr><td>2</td><td>1.112</td><td>0.770</td></tr>
+<tr><td>3</td><td>1.022</td><td>0.718</td></tr>
+<tr><td>4</td><td>1.093</td><td>0.688</td></tr>
+<tr><td>5</td><td>1.128</td><td><strong>0.699</strong></td></tr>
+</tbody></table></div>
+<p>Before: one direction got <strong>14×</strong> the push of the other. After 5 rounds: about <strong>1.6×</strong>. Every stretch lands roughly between 0.7 and 1.1. It's not exactly orthogonal, but close enough, and very cheap. Newer versions tune this further; DeepSeek-V4 used a 10-round, two-stage Newton–Schulz.</p>
+<h3>The full Muon step</h3>
+<div class="math-block">$$M \leftarrow \mu\,M + G \qquad \text{(momentum, } \mu \approx 0.95\text{; usually Nesterov-style)}$$</div>
+<div class="math-block">$$O \leftarrow \mathrm{NewtonSchulz}_5(M) \approx U V^\top$$</div>
+<div class="math-block">$$\boxed{\ W \leftarrow W - \eta\,O\ }$$</div>
+<p><strong>Scaling.</strong> $O$ has every stretch near 1, so its overall size depends on the matrix shape. Implementations rescale it:</p>
+<ul>
+<li>Keller Jordan's version multiplies by $\sqrt{\max(1,\ \text{rows}/\text{cols})}$.</li>
+<li>Moonshot's version scales updates to match AdamW's typical update size, so AdamW learning rates and weight decay can be reused. It also adds weight decay.</li>
+</ul>
+<p><strong>Which weights use Muon:</strong></p>
+<ul>
+<li><strong>Muon:</strong> the 2D weight matrices inside the hidden layers (attention and MLP matrices).</li>
+<li><strong>AdamW:</strong> word embeddings, the output layer, biases and normalization weights. They aren't the "matrix that transforms a hidden vector" kind of parameter.</li>
+</ul>
+<h3>Muon on our two-weight map</h3>
+<p>Our two weights act like a tiny <strong>diagonal</strong> matrix $\mathrm{diag}(x, y)$. Orthogonalizing a diagonal matrix gives $\mathrm{diag}(\mathrm{sign}, \mathrm{sign})$, so Muon behaves like Lion here.</p>
+<p><strong>Step 1</strong> ($\mu = 0.9$, Nesterov, $\eta = 0.4$):</p>
+<ul>
+<li>Gradient $g = (-1.24,\ 6.6)$; momentum $M = g$.</li>
+<li>Nesterov blend: $g + 0.9M = (-2.356,\ 12.54)$.</li>
+<li>Five Newton–Schulz rounds on $\mathrm{diag}(-2.356,\ 12.54)$ give $\mathrm{diag}(-0.952,\ 0.719)$, roughly $(-1, +1)$, i.e. the signs.</li>
+<li>$\theta_1 = (-6.2 + 0.4(0.952),\ 2.2 - 0.4(0.719)) = (-5.819,\ 1.912)$.</li>
+</ul>
+<p><strong>Next steps:</strong> $(-5.496,\ 1.630)$, then $(-5.228,\ 1.351)$. Roughly equal-sized moves along each axis, settling near $(0.05,\ -0.01)$ after 50 steps.</p>
+<h2 id="14-muon-in-the-real-world"><span class="article__num">14</span>Muon in the real world</h2>
+<ul>
+<li><strong>Late 2024 — NanoGPT speedrun.</strong> Muon set new records in a public race to train a small GPT-2 model as fast as possible.</li>
+<li><strong>Feb 2025 — "Muon is Scalable for LLM Training" (Moonshot AI).</strong><ul><li>They added <strong>weight decay</strong> and <strong>matched the update size to AdamW's</strong>.</li><li>They reported about <strong>2× the compute efficiency of AdamW</strong> on their Moonlight model (3B active / 16B total parameters, 5.7T tokens).</li></ul></li>
+<li><strong>Jul 2025 — Kimi K2</strong> (Moonshot AI, about 1 trillion parameters).<ul><li>At that size, Muon caused <strong>attention scores to keep growing</strong> until training became unstable.</li><li>Their fix, <strong>MuonClip</strong>, adds <strong>QK-clip</strong>. It watches the largest attention score $S_{\max}$ of each attention head. If it goes above a threshold $\tau$, it shrinks that head's query and key weights.</li><li>Concretely (simplified; the paper treats some attention components separately): $\gamma = \tau / S_{\max}$, then $W_q \leftarrow \sqrt{\gamma}\,W_q$ and $W_k \leftarrow \sqrt{\gamma}\,W_k$. The scores $q \cdot k$ scale by $\gamma$, back down to $\tau$.</li><li>Example: $S_{\max} = 150$ and $\tau = 100$ give $\gamma = 0.667$. Each weight is multiplied by $0.816$, and the score drops from $150$ to $100$.</li><li>Kimi K2 trained on <strong>15.5 trillion tokens with zero training spikes</strong>.</li></ul></li>
+<li><strong>Aug 2025 — GLM-4.5.</strong> Muon for all parameters except word embeddings, biases and normalization weights.</li>
+<li><strong>Apr 2026 — DeepSeek-V4.</strong><ul><li>Muon for most modules; AdamW for embeddings, the prediction head and normalization weights.</li><li>A <strong>hybrid 10-round Newton–Schulz</strong>.</li><li><strong>No QK-clip</strong>.</li><li>Momentum 0.95, weight decay 0.1, update RMS rescaled to 0.18.</li></ul></li>
+<li><strong>2026 — GLM-5</strong> trained with Muon. <strong>NVIDIA</strong> added Muon to Megatron, its large-scale training library, at speed close to AdamW.</li>
+</ul>
+<h2 id="15-is-adamw-finished"><span class="article__num">15</span>Is AdamW finished?</h2>
+<p>Not quite.</p>
+<ul>
+<li><strong>A careful 2025 study</strong> (<em>Fantastic Pretraining Optimizers and Where to Find Them</em>) tuned every optimizer properly.<ul><li>Matrix optimizers like Muon and SOAP were about <strong>1.4× faster</strong> than AdamW at 0.1B parameters, but only about <strong>1.1×</strong> at 1.2B.</li><li>The advantage shrinks as models grow.</li><li>The study also warned that optimizer rankings can flip late in training, so compare at the end.</li></ul></li>
+<li><strong>A 2026 NVIDIA study</strong> (<em>SOAP, Muon, and Beyond</em>) found that at <strong>very large batches</strong> (up to 100M tokens), Muon and SOAP stayed stable while AdamW got worse.</li>
+<li><strong>The biggest closed labs</strong> don't say what they use.</li>
+</ul>
+<p><strong>Today:</strong> Muon is the main challenger, and AdamW is still everywhere.</p>
+<h2 id="16-summary-table-and-timeline"><span class="article__num">16</span>Summary table and timeline</h2>
+<div class="table-wrap"><table>
+<thead><tr>
+<th>Optimizer</th>
+<th>Year</th>
+<th>Key idea</th>
+<th>Update (simplified)</th>
+<th>Extra memory per weight</th>
+</tr></thead><tbody>
+<tr><td>Gradient descent</td><td>1847*</td><td>Follow the slope</td><td>$\theta - \eta\nabla L$</td><td>0</td></tr>
+<tr><td>SGD</td><td>1951</td><td>Estimate the slope from 1 / a few examples</td><td>$\theta - \eta\nabla\ell_i$</td><td>0</td></tr>
+<tr><td>Momentum</td><td>1964</td><td>Average recent gradients</td><td>$v = \beta v + g;\ \theta - \eta v$</td><td>1</td></tr>
+<tr><td>RMSProp</td><td>2012</td><td>Per-weight step size</td><td>$\theta - \eta\, g/\sqrt{s}$</td><td>1</td></tr>
+<tr><td>Adam</td><td>2014</td><td>Momentum + RMSProp + bias fix</td><td>$\theta - \eta\,\hat m/\sqrt{\hat s}$</td><td>2</td></tr>
+<tr><td>AdamW</td><td>2017</td><td>Decay applied separately</td><td>Adam step $- \eta\lambda\theta$</td><td>2</td></tr>
+<tr><td>Adafactor</td><td>2018</td><td>Row + column averages instead of full grid</td><td>factored $\hat V$</td><td>≪ 1 (+ optional momentum)</td></tr>
+<tr><td>Shampoo</td><td>2018</td><td>Whole-matrix preconditioning</td><td>$L^{-1/4} G R^{-1/4}$</td><td>row/column matrices</td></tr>
+<tr><td>LAMB</td><td>2019</td><td>Per-layer trust ratio</td><td>$\frac{\|w\|}{\|u\|}u$</td><td>2</td></tr>
+<tr><td>Lion</td><td>2023</td><td>Keep only the sign</td><td>$\theta - \eta\,\mathrm{sign}(c)$</td><td>1</td></tr>
+<tr><td>Sophia</td><td>2023</td><td>Divide by curvature, clip</td><td>$\mathrm{clip}(m/h)$</td><td>2</td></tr>
+<tr><td>SOAP</td><td>2024</td><td>Adam inside Shampoo's rotated view</td><td>—</td><td>Shampoo + Adam</td></tr>
+<tr><td>Muon</td><td>2024</td><td>Orthogonalize the momentum matrix</td><td>$W - \eta\,\mathrm{NS}_5(M)$</td><td>1</td></tr>
+</tbody></table></div>
+<p>\*Gradient descent is usually credited to Cauchy (1847). The video's timeline starts at SGD (Robbins–Monro, 1951).</p>
+<p><strong>The story in three eras:</strong></p>
+<ol>
+<li><strong>Follow the slope</strong> (GD, SGD, momentum).</li>
+<li><strong>Give each weight its own step size</strong> (RMSProp, Adam, AdamW, Adafactor, LAMB, Lion, Sophia).</li>
+<li><strong>Balance the whole matrix at once</strong> (Shampoo, SOAP, Muon).</li>
+</ol>
+<h3>Sources</h3>
+<ul>
+<li>Kingma &amp; Ba, <em>Adam</em> (2014); Loshchilov &amp; Hutter, <em>Decoupled Weight Decay Regularization</em> (AdamW)</li>
+<li>Shazeer &amp; Stern, <em>Adafactor</em> (2018); You et al., <em>Large Batch Optimization for Deep Learning: Training BERT in 76 minutes</em> (LAMB, 2019)</li>
+<li>Chen et al., <em>Symbolic Discovery of Optimization Algorithms</em> (Lion, 2023) — <a href="https://arxiv.org/pdf/2302.06675">https://arxiv.org/pdf/2302.06675</a></li>
+<li>Liu et al., <em>Sophia</em> (2023)</li>
+<li>Gupta, Koren &amp; Singer, <em>Shampoo</em> (2018); Vyas et al., <em>SOAP</em> (2024) — <a href="https://arxiv.org/pdf/2409.11321">https://arxiv.org/pdf/2409.11321</a></li>
+<li>AlgoPerf competition results — <a href="https://proceedings.iclr.cc/paper_files/paper/2025/hash/6bdde0373d53d4a501249547084bed43-Abstract-Conference.html">https://proceedings.iclr.cc/paper_files/paper/2025/hash/6bdde0373d53d4a501249547084bed43-Abstract-Conference.html</a></li>
+<li>Keller Jordan, <em>Muon</em> (2024); Moonshot AI, <em>Muon is Scalable for LLM Training</em> — <a href="https://arxiv.org/abs/2502.16982">https://arxiv.org/abs/2502.16982</a></li>
+<li>Kimi K2 — <a href="https://www.kimi.ai/blog/kimi-k2">https://www.kimi.ai/blog/kimi-k2</a>; GLM-4.5 — <a href="https://arxiv.org/pdf/2508.06471">https://arxiv.org/pdf/2508.06471</a>; DeepSeek-V4 — <a href="https://arxiv.org/pdf/2606.19348">https://arxiv.org/pdf/2606.19348</a></li>
+<li>NVIDIA, Muon in Megatron — <a href="https://developer.nvidia.com/blog/advancing-emerging-optimizers-for-accelerated-llm-training-with-nvidia-megatron/">https://developer.nvidia.com/blog/advancing-emerging-optimizers-for-accelerated-llm-training-with-nvidia-megatron/</a></li>
+<li><em>Fantastic Pretraining Optimizers and Where to Find Them</em> — <a href="https://arxiv.org/abs/2509.02046">https://arxiv.org/abs/2509.02046</a></li>
+<li>NVIDIA, <em>SOAP, Muon, and Beyond</em> — <a href="https://www.alphaxiv.org/abs/2607.20548">https://www.alphaxiv.org/abs/2607.20548</a></li>
+</ul>
+<p>All the worked numbers in this document were computed with the same code that produced the video (<code>paths.py</code>).</p>
+
+                        <div class="byline">
+                            <span class="byline__avatar" aria-hidden="true">AP</span>
+                            <div class="byline__text">
+                                <strong>Ashish Patwa</strong>
+                                <span>Human data, RL environments, post-training.</span>
+                            </div>
+                            <a class="byline__reply" href="mailto:ashishdevvanshi786@gmail.com">reply &#8599;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+        onload="renderMathInElement(document.querySelector('.article__body'), {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}], throwOnError: false})"></script>
+    <script src="../scripts/main.js"></script>
+</body>
+</html>

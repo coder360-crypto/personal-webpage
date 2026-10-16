@@ -7,7 +7,8 @@
     const links = Array.from(document.querySelectorAll('.nav__link'));
     const sections = links
         .filter((link) => (link.getAttribute('href') || '').startsWith('#'))
-        .map((link) => document.querySelector(link.getAttribute('href')))
+        // getElementById: ids like "0-the-setup" aren't valid CSS selectors
+        .map((link) => document.getElementById(link.getAttribute('href').slice(1)))
         .filter(Boolean);
 
     // --- Mobile menu toggle ---
@@ -56,7 +57,8 @@
 
     const tocLinks = Array.from(document.querySelectorAll('.toc__link'));
     const targets = tocLinks
-        .map((link) => document.querySelector(link.getAttribute('href')))
+        // getElementById: ids like "0-the-setup" aren't valid CSS selectors
+        .map((link) => document.getElementById(link.getAttribute('href').slice(1)))
         .filter(Boolean);
 
     if ('IntersectionObserver' in window && targets.length) {
@@ -70,7 +72,7 @@
                     });
                 });
             },
-            { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+            { rootMargin: '0px 0px -75% 0px', threshold: 0 }
         );
         targets.forEach(function (t) { observer.observe(t); });
     }
